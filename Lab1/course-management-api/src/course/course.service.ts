@@ -8,4 +8,10 @@ export class CourseService {
     getCourseById(id:string){
         return `Get Course with ID: ${id}- from Service`;
     }
+    CreateCourse(){
+        return "Create Course - from Service";
+    }
+    UpdateCourse(id:string){
+        return `Update Course ${id}- form Service`;
+    }
 }
