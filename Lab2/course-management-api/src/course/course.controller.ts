@@ -1,7 +1,10 @@
-import { Controller, Get, Param,Post,Body, Put, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Param,Post,Body, Put, Patch, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { CourseService } from './course.service.js';
 import { createCourseDto } from './dto/create-course.dto.js';
 import { UpdateCourseDto } from './dto/update-course.dto.js';
+import { FileInterceptor } from '@nestjs/platform-express';
+import {diskStorage} from "multer";
+import {extname} from "path"
 
 @Controller('course')
 export class CourseController {
@@ -29,5 +32,27 @@ export class CourseController {
   @Delete(':id')
   deleteCourse(@Param('id')id:string){
     return this.courseService.deleteCourse(id);
+  }
+
+  @Post(':id/Upload')
+  @UseInterceptors(FileInterceptor('file',{
+    storage:diskStorage({
+      destination: "./uploads",
+      filename:(req,file,cb)=>{
+        cb(null,`${file.originalname}`)
+
+      }
+    }),
+    fileFilter:(req,file,cb) => {
+      let allowed = /\.(jpg|jpeg|png|pdf)$/i;
+      if(!allowed.test(extname(file.originalname))){
+        return cb(null,false);
+      }
+      return cb(null,true);
+    },
+    limits:{fileSize: 2*1024*1024},
+  }))
+  uploadCourseMaterial(@Param('id')id:string,@UploadedFile() file:Express.Multer.File){
+    return this.courseService.uploadCourseMaterial(id,file)
   }
 }
