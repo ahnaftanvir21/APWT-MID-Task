@@ -20,6 +20,6 @@ export class CourseService {
         return {message: "Course patched successfully",id,data:dto};
     }
     deleteCourse(id: string){
-        return {message: "Material uploaded successfully",courseId:id};
+        return {message: "Course deleted successfully",id};
     }
 }
