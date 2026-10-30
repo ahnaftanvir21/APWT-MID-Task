@@ -1,33 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { PartialType } from "@nestjs/mapped-types";
+import { CreateProductDto } from "./create-product.dto.js";
 
-@Entity('product')
-export class Products{
-    @PrimaryGeneratedColumn()
-    id:string;
-    @Column()
-    name:string;
-    @Column({
-        nullable:true
-    })
-    description:string;
-    @Column({
-        type:'decimal',
-        precision:10,
-        scale:2
-    })
-    price:number;
-    @Column({
-        default:0
-    })
-    stock:number;
-    @Column()
-    category:string;
-    @Column({
-        default:true
-    })
-    isActive:boolean;
-    @CreateDateColumn()
-    createAt:Date;
-    @UpdateDateColumn()
-    updatedAt:Date;
+export class PartialUpdateProductDto extends PartialType(CreateProductDto){
+    
 }
