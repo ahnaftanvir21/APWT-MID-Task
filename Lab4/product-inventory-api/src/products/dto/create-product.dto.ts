@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString } from "class-validator";
+import { IsBoolean, isIn, IsInt, isInt, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, Min } from "class-validator";
 
 export class CreateProductDto{
     @IsNotEmpty()
@@ -12,8 +12,10 @@ export class CreateProductDto{
     @IsPositive()
     @Type(()=>Number)
     price:number;
-    @IsString()
-    @IsNotEmpty()
+    @IsOptional()
+    @Min(0)
+    @Type(()=>Number)
+    @IsInt()
     stock:number;
     @IsString()
     @IsNotEmpty()
